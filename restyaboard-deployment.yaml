@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: restyaboard
+  name: restyaboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: restyaboard
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: restyaboard
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_ADMIN_PASS
+              value: admin
+            - name: POSTGRES_ADMIN_USER
+              value: postgres
+            - name: POSTGRES_HOST
+              value: postgres
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: RESTYA_DB
+              value: restyaboard
+            - name: RESTYA_DB_USERNAME
+              value: restya
+            - name: RESTYA_DB_USERPASS
+              value: restya
+          image: restyaboard
+          name: restyaboard
+          ports:
+            - containerPort: 80
+      restartPolicy: Always
